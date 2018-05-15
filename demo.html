@@ -1,0 +1,70 @@
+<html>
+    <body>
+    <style>
+
+        #animator {
+            width: 1140px;
+            height: 300px;
+            position: relative;
+        }
+
+        #animator div {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            opacity: 0;
+            -webkit-transition: opacity 2s;
+            -moz-transition: opacity 2s;
+            -ms-transition: opacity 2s;
+            -o-transition: opacity 2s;
+            transition: opacity 2s;
+        }
+    </style>
+        <div id="animator">
+            <div style="background-image: url(images/bicycle_banner.jpg);">
+            </div>
+            <div style="background-image: url(images/extreme-biker.jpg);">
+            </div>
+        </div>
+
+        <script>
+            var Animator = function(element, duration, excludedChildren){
+                var nodes = document.getElementById("animator").childNodes;
+                var items = [];
+                for (var x = 0; x < nodes.length; x++) {
+                    if(nodes[x].nodeName !== "#text") {
+                        items.push(nodes[x]);
+                    }
+                }
+                var currentItem = -1;
+
+                return {
+                    init: function(){
+                        this.change();
+                        setInterval(this.change, duration*1000);
+                    },
+                    change: function() {
+                        window.setTimeout( function() {
+                            if(currentItem > -1) {
+                                items[currentItem].style.opacity = 0;
+                            }
+                            if(currentItem == items.length - 1) {
+                                currentItem = 0;
+                            }
+                            else
+                            {
+                                currentItem++;
+                            }
+                            items[currentItem].style.opacity = 1;
+                        }, 50);
+                    }
+                };
+            };
+
+            var animator = Animator("animator", 5);
+            animator.init();
+        </script>
+    </body>
+</html>
